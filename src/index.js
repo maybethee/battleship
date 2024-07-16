@@ -1,7 +1,22 @@
 // import "./style.css";
 
-function sum(a, b) {
-  return a + b;
+class Ship {
+  constructor(length) {
+    this.length = length;
+    this.hitCount = 0;
+  }
+
+  hit() {
+    this.hitCount += 1;
+  }
+
+  isSunk() {
+    if (this.hitCount >= this.length) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
-export { sum };
+export { Ship };
