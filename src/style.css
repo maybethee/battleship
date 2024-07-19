@@ -50,4 +50,15 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+  margin-bottom: 20px;
+}
+
+.hit {
+  background-color: red;
+}
+
+.cell {
+  border: 1px solid black;
+  padding: 10px;
+  cursor: pointer;
 }
