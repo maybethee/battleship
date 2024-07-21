@@ -1,3 +1,5 @@
+import { nextFriday } from "date-fns";
+
 if (process.env.NODE_ENV !== "test") {
   require("./dom");
 }
@@ -112,4 +114,56 @@ class Player {
   }
 }
 
-export { Ship, Gameboard, Player };
+class GameController {
+  constructor() {
+    this.players = [new Player("human"), new Player("computer")];
+    this.currentPlayer = this.players[0];
+    this.currentPlayerIndex = 0;
+    this.currentIsHuman = true;
+  }
+
+  gameStart() {
+    this.playTurn(this.getCurrentPlayer());
+  }
+
+  playTurn() {
+    if (this.getCurrentPlayer().type === "human") {
+      this.currentIsHuman = true;
+    } else {
+      this.currentIsHuman = false;
+      this.computerTurn();
+    }
+  }
+
+  computerTurn() {
+    let x = Math.floor(Math.random() * 10);
+    let y = Math.floor(Math.random() * 10);
+
+    // attack human player's board
+    this.players[0].board.receiveAttack(y, x);
+  }
+
+  // only gets called in DOM maybe?
+  nextTurn() {
+    this.currentPlayerIndex =
+      (this.currentPlayerIndex + 1) % this.players.length;
+  }
+
+  // should only get called after nextTurn()
+  winCheck() {
+    // after currentPlayer changes, check for win condition: (since players attack each _other's_ boards)
+    if (this.getCurrentPlayer().board.allSunk()) {
+      // switch to winner POV
+      this.nextTurn();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getCurrentPlayer() {
+    return this.players[this.currentPlayerIndex];
+  }
+}
+
+export { Ship, Gameboard, Player, GameController };

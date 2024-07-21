@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { Ship, Gameboard, Player } from "./index";
+import { Ship, Gameboard, Player, GameController } from "./index";
 jest.mock("./dom.js");
 
 describe("Ship methods", () => {
@@ -137,6 +137,20 @@ describe("Gameboard methods", () => {
         expect(newGameboard.missedShots.at(-1)).toEqual([x, y + 1]);
       });
     });
+
+    // to write:
+    // describe("when receiveAttack coordinates are duplicated", () => {
+    //   test("when attack would hit a ship, does not call hit method the second time", () => {
+    //     newGameboard.receiveAttack(y, x)
+    //     // expect it to break out of function?
+    //     // expect(newGameboard.receiveAttack(y, x)).toBe(true);
+    //   });
+    //   test("when attack would miss, does not add coordinates to missed shots array twice", () => {
+    //     newGameboard.receiveAttack(y, x - 1)
+    //     // expect it to break out of function?
+    //     // expect(newGameboard.receiveAttack(y, x)).toBe(true);
+    //   });
+    // });
   });
 
   describe("allSunk method", () => {
@@ -155,7 +169,6 @@ describe("Gameboard methods", () => {
       newShip2 = new Ship(3);
 
       newGameboard.placeShip(newShip, x, y);
-      // newGameboard.printBoard();
       newGameboard.placeShip(newShip2, newX, newY, "horizontal");
       newGameboard.printBoard();
 
@@ -185,5 +198,84 @@ describe("Player class", () => {
 
   test("should be constructed with a new Gameboard object", () => {
     expect(newPlayer.board).toBeInstanceOf(Gameboard);
+  });
+});
+
+describe("GameController class", () => {
+  let game;
+  game = new GameController();
+
+  test("players array should have 2 player objects", () => {
+    expect(game.players.length).toBe(2);
+    expect(game.players[0]).toBeInstanceOf(Player);
+    expect(game.players[1]).toBeInstanceOf(Player);
+  });
+
+  test("currentPlayer is set to the first element in the players array", () => {
+    expect(game.currentPlayer).toBe(game.players[0]);
+  });
+
+  // not sure if gameStart is necessary
+  describe("gameStart() method", () => {
+    const spy = jest.spyOn(game, "playTurn");
+    game.gameStart();
+
+    test("calls playTurn() with currentPlayer", () => {
+      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(game.getCurrentPlayer());
+
+      spy.mockRestore();
+    });
+  });
+
+  describe("playTurn method", () => {
+    const spy = jest.spyOn(game, "computerTurn");
+
+    test("currentIsHuman is false when currentPlayer is computer", () => {
+      game.currentPlayerIndex = 1;
+      game.playTurn();
+      expect(game.currentIsHuman).toBe(false);
+    });
+
+    test("currentIsHuman is true when currentPlayer is human", () => {
+      game.currentPlayerIndex = 0;
+      game.playTurn();
+      expect(game.currentIsHuman).toBe(true);
+    });
+
+    test("computerTurn gets called when currentPlayer is computer", () => {
+      game.currentPlayerIndex = 1;
+      game.playTurn();
+      expect(spy).toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+  });
+
+  describe("computerTurn method", () => {
+    const spy = jest.spyOn(game.getCurrentPlayer().board, "receiveAttack");
+    test("should call receiveAttack", () => {
+      game.currentPlayerIndex = 1;
+      game.playTurn();
+      expect(spy).toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+  });
+
+  describe("winCheck method", () => {
+    test("should call allSunk", () => {
+      const spy = jest.spyOn(game.getCurrentPlayer().board, "allSunk");
+      game.winCheck();
+      expect(spy).toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+  });
+
+  test("nextTurn() sets currentPlayer to players[0] after players[1]'s turn", () => {
+    game.currentPlayerIndex = 1;
+    game.nextTurn();
+    expect(game.getCurrentPlayer()).toBe(game.players[0]);
   });
 });
