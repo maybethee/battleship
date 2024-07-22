@@ -1,10 +1,10 @@
-import { nextFriday } from "date-fns";
+// if (process.env.NODE_ENV !== "test") {
+//   require("./dom");
+// }
 
-if (process.env.NODE_ENV !== "test") {
-  require("./dom");
-}
+// const gameStartBtn = document.querySelector(".game-start-btn");
 
-console.log("index hi");
+// gameStartBtn.addEventListener("click", () => console.log("hi"));
 
 class Ship {
   constructor(length) {
@@ -73,6 +73,7 @@ class Gameboard {
 
   receiveAttack(yCoordinate, xCoordinate) {
     if (this.board[yCoordinate][xCoordinate] instanceof Ship) {
+      // currently attacking the current player's board... should it do this or attack the opposing player's?
       this.board[yCoordinate][xCoordinate].hit();
       console.log("hit ship");
 
@@ -126,27 +127,34 @@ class GameController {
     this.playTurn(this.getCurrentPlayer());
   }
 
+  // sets flag for whether current turn is human
   playTurn() {
     if (this.getCurrentPlayer().type === "human") {
       this.currentIsHuman = true;
     } else {
       this.currentIsHuman = false;
-      this.computerTurn();
+
+      // computerTurn gets called in dom eventlistener
+      // this.computerTurn();
     }
+    // console.log("current player:", this.getCurrentPlayer().type);
   }
 
   computerTurn() {
     let x = Math.floor(Math.random() * 10);
     let y = Math.floor(Math.random() * 10);
 
-    // attack human player's board
-    this.players[0].board.receiveAttack(y, x);
+    // should attack the human player's board (unless the player's board is the board meant to be attacked)
+    this.players[1].board.receiveAttack(y, x);
+    this.nextTurn();
   }
 
   // only gets called in DOM maybe?
   nextTurn() {
     this.currentPlayerIndex =
       (this.currentPlayerIndex + 1) % this.players.length;
+
+    // console.log("current player:", this.getCurrentPlayer().type);
   }
 
   // should only get called after nextTurn()

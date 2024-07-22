@@ -1,47 +1,31 @@
-import { Ship, Gameboard, Player } from "./index";
+import { Ship, Gameboard, Player, GameController } from "./index";
 import "./style.css";
 
 const gameStartBtn = document.querySelector(".game-start-btn");
 const gameDiv = document.querySelector(".game");
+const game = new GameController();
 
 gameStartBtn.addEventListener("click", () => {
-  console.log("hi");
+  console.log(game);
 
-  playGame(setupDOM());
+  setupDOM();
 });
 
-function playGame(playersArray) {
-  let gameOver = false;
-
-  while (gameOver !== true) {
-    playTurn(playersArray[0]);
-    // nextTurn function will rotate the players array somehow
-    nextTurn();
-  }
-}
-
-function playTurn(player) {
-  // console.log(player.type);
-}
-
-function nextTurn() {}
-
 function setupDOM() {
-  //create payers
-  const players = [];
-  const p1 = new Player("human");
-  const p2 = new Player("computer");
-  players.push(p1, p2);
+  // set initial human turn flag:
+  game.playTurn();
 
-  // create boards
-  createPlayerBoard(p1);
-  createPlayerBoard(p2);
+  // set up player variables
+  const p1 = game.players[0];
+  const p2 = game.players[1];
 
   // set ships on boards
   p1.board.placeShip(new Ship(2), 2, 3, "horizontal");
   p2.board.placeShip(new Ship(2), 5, 5);
 
-  return players;
+  // create boards
+  createPlayerBoard(p1);
+  createPlayerBoard(p2);
 }
 
 function createPlayerBoard(player) {
@@ -55,7 +39,7 @@ function createPlayerBoard(player) {
   headerRow.appendChild(emptyCorner);
   for (let i = 0; i < player.board.board.length; i++) {
     let axisCell = document.createElement("td");
-    axisCell.textContent = i; // Set the cell content to the x-coordinate
+    axisCell.textContent = i;
     headerRow.appendChild(axisCell);
   }
   table.appendChild(headerRow);
@@ -70,20 +54,18 @@ function createPlayerBoard(player) {
 
     for (let j = 0; j < player.board.board[i].length; j++) {
       let cell = document.createElement("td");
-      cell.textContent = player.board.board[i][j];
+      cell.textContent = " ";
       cell.classList.add("cell");
+
+      cell.dataset.x = i;
+      cell.dataset.y = j;
 
       // make clickable if player is opponent
       if (player.type === "computer") {
         cell.style.cursor = "pointer";
-
-        cell.addEventListener("click", () => {
-          console.log("cell clicked");
-          if (player.board.receiveAttack(i, j)) {
-            cell.classList.add("hit");
-          }
-        });
+        cell.addEventListener("click", () => cellClick(cell));
       }
+
       row.appendChild(cell);
     }
     table.appendChild(row);
@@ -92,4 +74,33 @@ function createPlayerBoard(player) {
   boardName.textContent = player.type;
 
   gameDiv.append(table, boardName);
+}
+
+function cellClick(cell) {
+  if (game.currentIsHuman) {
+    // console.log("y, x:", cell.dataset.y, cell.dataset.x);
+    // console.log("ship at:", game.players[1].board.board[5][5]);
+
+    // currently receive attack is not working correctly
+    // have to figure out whose board is whose? in the Player class, is that player object's board the one they're attacking (belonging to the other "player"?)
+    let hit = game
+      .getCurrentPlayer()
+      .board.receiveAttack(cell.dataset.y, cell.dataset.x);
+    if (hit) {
+      console.log("ship hit");
+
+      cell.classList.add("hit");
+    } else {
+      console.log("ship missed");
+
+      game.nextTurn();
+      game.computerTurn();
+    }
+  }
+
+  if (game.winCheck()) {
+    console.log("game over");
+  } else {
+    return;
+  }
 }
