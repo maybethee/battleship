@@ -64,15 +64,15 @@ describe("Gameboard methods", () => {
 
     describe("when orientation argument is vertical", () => {
       beforeEach(() => {
-        newGameboard.placeShip(newShip, x, y);
+        newGameboard.placeShip(newShip, x, y, "vertical");
       });
 
       test("Cell vertically next to first cell should be the same ship object", () => {
-        expect(newGameboard.board[y + 1][x]).toBe(newShip);
+        expect(newGameboard.board[y][x + 1]).toBe(newShip);
       });
 
       test("Cell horizontally next to first cell should NOT be the same ship object", () => {
-        expect(newGameboard.board[y][x + 1]).not.toBe(newShip);
+        expect(newGameboard.board[y + 1][x]).not.toBe(newShip);
       });
     });
 
@@ -81,11 +81,11 @@ describe("Gameboard methods", () => {
         newGameboard.placeShip(newShip, x, y, "horizontal");
       });
       test("Cell horizontally next to first cell should be the same ship object", () => {
-        expect(newGameboard.board[y][x + 2]).toBe(newShip);
+        expect(newGameboard.board[y + 1][x]).toBe(newShip);
       });
 
       test("Cell vertically next to first cell should NOT be the same ship object", () => {
-        expect(newGameboard.board[y + 1][x]).not.toBe(newShip);
+        expect(newGameboard.board[y][x + 2]).not.toBe(newShip);
       });
     });
   });
@@ -169,7 +169,7 @@ describe("Gameboard methods", () => {
       newShip2 = new Ship(3);
 
       newGameboard.placeShip(newShip, x, y);
-      newGameboard.placeShip(newShip2, newX, newY, "horizontal");
+      newGameboard.placeShip(newShip2, newX, newY, "vertical");
       newGameboard.printBoard();
 
       newGameboard.receiveAttack(y, x);
@@ -242,21 +242,12 @@ describe("GameController class", () => {
       game.playTurn();
       expect(game.currentIsHuman).toBe(true);
     });
-
-    test("computerTurn gets called when currentPlayer is computer", () => {
-      game.currentPlayerIndex = 1;
-      game.playTurn();
-      expect(spy).toHaveBeenCalled();
-
-      spy.mockRestore();
-    });
   });
 
   describe("computerTurn method", () => {
-    const spy = jest.spyOn(game.getCurrentPlayer().board, "receiveAttack");
+    const spy = jest.spyOn(game.getOpposingPlayer().board, "receiveAttack");
     test("should call receiveAttack", () => {
-      game.currentPlayerIndex = 1;
-      game.playTurn();
+      game.computerTurn();
       expect(spy).toHaveBeenCalled();
 
       spy.mockRestore();
@@ -265,7 +256,7 @@ describe("GameController class", () => {
 
   describe("winCheck method", () => {
     test("should call allSunk", () => {
-      const spy = jest.spyOn(game.getCurrentPlayer().board, "allSunk");
+      const spy = jest.spyOn(game.getOpposingPlayer().board, "allSunk");
       game.winCheck();
       expect(spy).toHaveBeenCalled();
 

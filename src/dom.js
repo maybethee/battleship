@@ -20,8 +20,8 @@ function setupDOM() {
   const p2 = game.players[1];
 
   // set ships on boards
-  p1.board.placeShip(new Ship(2), 2, 3, "horizontal");
-  p2.board.placeShip(new Ship(2), 5, 5);
+  p1.board.placeShip(new Ship(2), 2, 3);
+  p2.board.placeShip(new Ship(2), 5, 5, "vertical");
 
   // create boards
   createPlayerBoard(p1);
@@ -80,11 +80,8 @@ function cellClick(cell) {
   if (game.currentIsHuman) {
     // console.log("y, x:", cell.dataset.y, cell.dataset.x);
     // console.log("ship at:", game.players[1].board.board[5][5]);
-
-    // currently receive attack is not working correctly
-    // have to figure out whose board is whose? in the Player class, is that player object's board the one they're attacking (belonging to the other "player"?)
     let hit = game
-      .getCurrentPlayer()
+      .getOpposingPlayer()
       .board.receiveAttack(cell.dataset.y, cell.dataset.x);
     if (hit) {
       console.log("ship hit");
@@ -96,11 +93,11 @@ function cellClick(cell) {
       game.nextTurn();
       game.computerTurn();
     }
-  }
 
-  if (game.winCheck()) {
-    console.log("game over");
-  } else {
-    return;
+    if (game.winCheck()) {
+      console.log("game over");
+    } else {
+      return;
+    }
   }
 }
