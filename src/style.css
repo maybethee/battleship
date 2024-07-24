@@ -57,9 +57,18 @@ table {
   background-color: red;
 }
 
-.cell {
+.miss {
+  background-color: gold;
+}
+
+.human-cell,
+.computer-cell {
   border: 1px solid black;
   padding: 10px;
+}
+
+.ship {
+  border: solid 2px blue;
 }
 
 .game {

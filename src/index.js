@@ -26,6 +26,7 @@ class Gameboard {
     this.board = this.createBoard();
     this.ships = [];
     this.missedShots = [];
+    this.guessedCells = [];
   }
 
   createBoard() {
@@ -70,11 +71,15 @@ class Gameboard {
   receiveAttack(yCoordinate, xCoordinate) {
     if (this.board[yCoordinate][xCoordinate] instanceof Ship) {
       this.board[yCoordinate][xCoordinate].hit();
-      console.log("hit ship");
+      // console.log("hit ship");
+
+      this.guessedCells.push([yCoordinate, xCoordinate]);
+      // console.log("guessed shots", this.guessedCells);
       return true;
     } else {
       this.missedShots.push([yCoordinate, xCoordinate]);
-      console.log("missed shots", this.missedShots);
+      this.guessedCells.push([yCoordinate, xCoordinate]);
+      // console.log("guessed shots", this.guessedCells);
       return false;
     }
   }
@@ -93,8 +98,12 @@ class Gameboard {
     }
   }
 
-  isShip(xCoordinate, yCoordinate) {
-    if (this.board[xCoordinate][yCoordinate] instanceof Ship) {
+  isShip(yCoordinate, xCoordinate) {
+    console.log("is ship called:");
+
+    if (this.board[yCoordinate][xCoordinate] instanceof Ship) {
+      console.log("it was a ship!!");
+
       return true;
     } else {
       return false;
@@ -128,18 +137,8 @@ class GameController {
     } else {
       this.currentIsHuman = false;
     }
-    console.log("current player:", this.getCurrentPlayer().type);
-    console.log("opposing player:", this.getOpposingPlayer().type);
-  }
-
-  computerTurn() {
-    console.log("doing computer turn:");
-
-    let x = Math.floor(Math.random() * 10);
-    let y = Math.floor(Math.random() * 10);
-
-    this.getOpposingPlayer().board.receiveAttack(y, x);
-    this.nextTurn();
+    // console.log("current player:", this.getCurrentPlayer().type);
+    // console.log("opposing player:", this.getOpposingPlayer().type);
   }
 
   // only gets called in DOM maybe?

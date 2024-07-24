@@ -229,7 +229,7 @@ describe("GameController class", () => {
   });
 
   describe("playTurn method", () => {
-    const spy = jest.spyOn(game, "computerTurn");
+    // const spy = jest.spyOn(game, "computerTurn");
 
     test("currentIsHuman is false when currentPlayer is computer", () => {
       game.currentPlayerIndex = 1;
@@ -244,15 +244,15 @@ describe("GameController class", () => {
     });
   });
 
-  describe("computerTurn method", () => {
-    const spy = jest.spyOn(game.getOpposingPlayer().board, "receiveAttack");
-    test("should call receiveAttack", () => {
-      game.computerTurn();
-      expect(spy).toHaveBeenCalled();
+  // describe("computerTurn method", () => {
+  //   const spy = jest.spyOn(game.getOpposingPlayer().board, "receiveAttack");
+  //   test("should call receiveAttack", () => {
+  //     game.computerTurn();
+  //     expect(spy).toHaveBeenCalled();
 
-      spy.mockRestore();
-    });
-  });
+  //     spy.mockRestore();
+  //   });
+  // });
 
   describe("winCheck method", () => {
     test("should call allSunk", () => {
