@@ -4,10 +4,14 @@ import "./style.css";
 const gameStartBtn = document.querySelector(".game-start-btn");
 const gameDiv = document.querySelector(".game");
 const game = new GameController();
+let availableCoordinates = [];
 
 // need to make sure the button can only get clicked once
 gameStartBtn.addEventListener("click", () => {
   console.log(game);
+
+  // computer guess pool
+  intializePossibleCoordinates();
 
   // initialize display
   setupDOM();
@@ -23,11 +27,16 @@ function setupDOM() {
 
   // set ships on boards
   // p1.board.placeShip(new Ship(2), 2, 3);
-  p1.board.placeShip(new Ship(9), 0, 0);
-  p1.board.placeShip(new Ship(9), 1, 0);
-  p1.board.placeShip(new Ship(9), 2, 0);
-  p1.board.placeShip(new Ship(9), 3, 0);
-  p1.board.placeShip(new Ship(9), 4, 0);
+  p1.board.placeShip(new Ship(10), 0, 0);
+  p1.board.placeShip(new Ship(10), 1, 0);
+  p1.board.placeShip(new Ship(10), 2, 0);
+  p1.board.placeShip(new Ship(10), 3, 0);
+  p1.board.placeShip(new Ship(10), 4, 0);
+  p1.board.placeShip(new Ship(10), 5, 0);
+  p1.board.placeShip(new Ship(10), 6, 0);
+  p1.board.placeShip(new Ship(10), 7, 0);
+  p1.board.placeShip(new Ship(10), 8, 0);
+  p1.board.placeShip(new Ship(10), 9, 0);
 
   p2.board.placeShip(new Ship(2), 5, 5, "vertical");
 
@@ -159,15 +168,37 @@ function cellClick(cell) {
   }
 }
 
-// improve this to create unique guesses and to repeat until guess is a miss
+function intializePossibleCoordinates() {
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      availableCoordinates.push([i, j]);
+    }
+  }
+
+  return availableCoordinates;
+}
+
 function computerTurn() {
-  let x = Math.floor(Math.random() * 10);
-  let y = Math.floor(Math.random() * 10);
+  if (availableCoordinates.length === 0) {
+    updateDOM();
+    game.nextTurn();
+    return;
+  }
+
+  let index = Math.floor(Math.random() * availableCoordinates.length);
+  let [x, y] = availableCoordinates[index];
+
+  // remove the chosen coordinate from availableCoordinates
+  availableCoordinates.splice(index, 1);
 
   // convert to strings for conformity
-  game.getOpposingPlayer().board.receiveAttack(String(y), String(x));
+  let hit = game.getOpposingPlayer().board.receiveAttack(String(y), String(x));
 
   updateDOM();
 
-  game.nextTurn();
+  if (hit) {
+    setTimeout(computerTurn, 0);
+  } else {
+    game.nextTurn();
+  }
 }
