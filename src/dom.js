@@ -10,6 +10,9 @@ let availableCoordinates = [];
 gameStartBtn.addEventListener("click", () => {
   console.log(game);
 
+  gameStartBtn.remove();
+  // gameStartBtn.setAttribute("style", "display: none;");
+
   // computer guess pool
   intializePossibleCoordinates();
 
@@ -26,17 +29,17 @@ function setupDOM() {
   const p2 = game.players[1];
 
   // set ships on boards
-  // p1.board.placeShip(new Ship(2), 2, 3);
-  p1.board.placeShip(new Ship(10), 0, 0);
-  p1.board.placeShip(new Ship(10), 1, 0);
-  p1.board.placeShip(new Ship(10), 2, 0);
-  p1.board.placeShip(new Ship(10), 3, 0);
-  p1.board.placeShip(new Ship(10), 4, 0);
-  p1.board.placeShip(new Ship(10), 5, 0);
-  p1.board.placeShip(new Ship(10), 6, 0);
-  p1.board.placeShip(new Ship(10), 7, 0);
-  p1.board.placeShip(new Ship(10), 8, 0);
-  p1.board.placeShip(new Ship(10), 9, 0);
+  p1.board.placeShip(new Ship(2), 2, 3);
+  // p1.board.placeShip(new Ship(10), 0, 0);
+  // p1.board.placeShip(new Ship(10), 1, 0);
+  // p1.board.placeShip(new Ship(10), 2, 0);
+  // p1.board.placeShip(new Ship(10), 3, 0);
+  // p1.board.placeShip(new Ship(10), 4, 0);
+  // p1.board.placeShip(new Ship(10), 5, 0);
+  // p1.board.placeShip(new Ship(10), 6, 0);
+  // p1.board.placeShip(new Ship(10), 7, 0);
+  // p1.board.placeShip(new Ship(10), 8, 0);
+  // p1.board.placeShip(new Ship(10), 9, 0);
 
   p2.board.placeShip(new Ship(2), 5, 5, "vertical");
 
@@ -92,7 +95,7 @@ function createPlayerBoards() {
     }
 
     let boardName = document.createElement("p");
-    boardName.textContent = player.type;
+    boardName.textContent = `${player.type}'s grid`;
 
     gameDiv.append(table, boardName);
   });
@@ -148,6 +151,10 @@ function cellClick(cell) {
   if (game.currentIsHuman) {
     // console.log("y, x:", cell.dataset.y, cell.dataset.x);
     // console.log("ship at:", game.players[1].board.board[5][5]);
+
+    // disallow clicking the same cell twice
+    cell.setAttribute("style", "pointer-events: none");
+
     let hit = game
       .getOpposingPlayer()
       .board.receiveAttack(cell.dataset.y, cell.dataset.x);
@@ -161,7 +168,7 @@ function cellClick(cell) {
     }
 
     if (game.winCheck()) {
-      console.log("game over");
+      gameOver();
     } else {
       return;
     }
@@ -196,9 +203,30 @@ function computerTurn() {
 
   updateDOM();
 
+  if (game.winCheck()) {
+    gameOver();
+
+    return;
+  }
+
   if (hit) {
     setTimeout(computerTurn, 0);
   } else {
     game.nextTurn();
   }
+}
+
+function gameOver() {
+  const gameWrapper = document.querySelector(".game-wrapper");
+  const gameOverMessage = document.createElement("div");
+
+  gameDiv.setAttribute("style", "pointer-events: none");
+
+  gameWrapper.classList.add("end-screen");
+  gameOverMessage.classList.add("game-over-message");
+  gameOverMessage.textContent = `Game over, ${
+    game.getCurrentPlayer().type
+  } wins!\r\n\r\nRefresh the page to play again.`;
+
+  gameWrapper.appendChild(gameOverMessage);
 }

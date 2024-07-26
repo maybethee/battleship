@@ -53,6 +53,19 @@ table {
   margin-bottom: 20px;
 }
 
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  margin: 1rem;
+  padding: 0.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
 .hit {
   background-color: red;
 }
@@ -74,9 +87,32 @@ table {
 .game {
   display: flex;
   flex-flow: column wrap;
-  align-content: center;
-  /* justify-content: space-evenly; */
+}
+
+.game-wrapper {
+  display: flex;
   justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.end-screen {
+  background-color: rgba(248, 72, 234, 0.325);
+}
+
+.game-over-message {
+  position: absolute;
+  white-space: pre;
+  text-align: center;
+  background-color: rgb(99, 35, 35);
+  color: beige;
+  padding: 1rem;
+  border: dashed beige 3px;
+  border-radius: 25px;
+  top: 40%;
+  left: 20%;
+  transform: translate(-50%, 50%);
 }
 
 table {

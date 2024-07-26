@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import { Ship, Gameboard, Player, GameController } from "./index";
-jest.mock("./dom.js");
 
 describe("Ship methods", () => {
   let newShip;
