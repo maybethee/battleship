@@ -57,6 +57,64 @@ class Gameboard {
     console.log(boardString);
   }
 
+  placeRandomShips(shipArr) {
+    for (let ship of shipArr) {
+      let placed = false;
+      while (!placed) {
+        // Generate a random orientation, x-coordinate, and y-coordinate
+        let orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
+        let x = Math.floor(Math.random() * this.board.length);
+        let y = Math.floor(Math.random() * this.board.length);
+
+        // Check if the ship can be placed at the generated location
+        if (this.canPlace(ship, x, y, orientation)) {
+          this.placeShip(ship, x, y, orientation);
+          placed = true;
+        }
+      }
+    }
+  }
+
+  canPlace(ship, x, y, orientation) {
+    for (let i = 0; i < ship.length; i++) {
+      let xCoordinate, yCoordinate;
+      if (orientation === "vertical") {
+        xCoordinate = x + i;
+        yCoordinate = y;
+      } else {
+        xCoordinate = x;
+        yCoordinate = y + i;
+      }
+
+      // Check the cell itself
+      if (
+        xCoordinate >= this.board.length ||
+        yCoordinate >= this.board.length ||
+        this.board[yCoordinate][xCoordinate] instanceof Ship
+      ) {
+        return false;
+      }
+
+      // Check the surrounding cells
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          let nx = xCoordinate + dx;
+          let ny = yCoordinate + dy;
+          if (
+            nx >= 0 &&
+            nx < this.board.length &&
+            ny >= 0 &&
+            ny < this.board.length &&
+            this.board[ny][nx] instanceof Ship
+          ) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
   placeShip(ship, xCoordinate, yCoordinate, orientation = "horizontal") {
     for (let i = 0; i < ship.length; i++) {
       if (orientation === "vertical") {

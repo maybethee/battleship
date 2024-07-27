@@ -8,10 +8,9 @@ let availableCoordinates = [];
 
 // need to make sure the button can only get clicked once
 gameStartBtn.addEventListener("click", () => {
-  console.log(game);
+  // console.log(game);
 
   gameStartBtn.remove();
-  // gameStartBtn.setAttribute("style", "display: none;");
 
   // computer guess pool
   intializePossibleCoordinates();
@@ -28,20 +27,25 @@ function setupDOM() {
   const p1 = game.players[0];
   const p2 = game.players[1];
 
-  // set ships on boards
-  p1.board.placeShip(new Ship(2), 2, 3);
-  // p1.board.placeShip(new Ship(10), 0, 0);
-  // p1.board.placeShip(new Ship(10), 1, 0);
-  // p1.board.placeShip(new Ship(10), 2, 0);
-  // p1.board.placeShip(new Ship(10), 3, 0);
-  // p1.board.placeShip(new Ship(10), 4, 0);
-  // p1.board.placeShip(new Ship(10), 5, 0);
-  // p1.board.placeShip(new Ship(10), 6, 0);
-  // p1.board.placeShip(new Ship(10), 7, 0);
-  // p1.board.placeShip(new Ship(10), 8, 0);
-  // p1.board.placeShip(new Ship(10), 9, 0);
+  // create arrays of ships for each player
+  let ships1 = [
+    new Ship(5),
+    new Ship(4),
+    new Ship(3),
+    new Ship(3),
+    new Ship(2),
+  ];
+  let ships2 = [
+    new Ship(5),
+    new Ship(4),
+    new Ship(3),
+    new Ship(3),
+    new Ship(2),
+  ];
 
-  p2.board.placeShip(new Ship(2), 5, 5, "vertical");
+  // place ships on boards
+  p1.board.placeRandomShips(ships1);
+  p2.board.placeRandomShips(ships2);
 
   // create boards
   createPlayerBoards();
@@ -87,6 +91,8 @@ function createPlayerBoards() {
           // make clickable if player is opponent
           cell.style.cursor = "pointer";
           cell.addEventListener("click", () => cellClick(cell));
+        } else if (player.board.isShip(cell.dataset.y, cell.dataset.x)) {
+          cell.classList.add("ship");
         }
 
         row.appendChild(cell);
@@ -139,6 +145,7 @@ function updateDOM() {
     ) {
       // check if cell is ship
       if (game.players[0].board.isShip(cell.dataset.y, cell.dataset.x)) {
+        cell.classList.remove("ship");
         cell.classList.add("hit");
       } else {
         cell.classList.add("miss");
@@ -205,7 +212,6 @@ function computerTurn() {
 
   if (game.winCheck()) {
     gameOver();
-
     return;
   }
 
