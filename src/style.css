@@ -66,6 +66,10 @@ button {
   cursor: pointer;
 }
 
+#randomize-ships {
+  visibility: hidden;
+}
+
 .hit {
   background-color: red;
 }

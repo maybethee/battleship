@@ -2,6 +2,7 @@ import { Ship, Gameboard, Player, GameController } from "./index";
 import "./style.css";
 
 const gameStartBtn = document.querySelector(".game-start-btn");
+const randomizeShipsBtn = document.querySelector("#randomize-ships");
 const gameDiv = document.querySelector(".game");
 const game = new GameController();
 let availableCoordinates = [];
@@ -49,7 +50,26 @@ function setupDOM() {
 
   // create boards
   createPlayerBoards();
+
+  randomizeShipsBtn.style.visibility = "visible";
 }
+
+randomizeShipsBtn.addEventListener("click", () => {
+  // only need to re-randomize human ships
+  game.players[0].board = new Gameboard();
+
+  let ships1 = [
+    new Ship(5),
+    new Ship(4),
+    new Ship(3),
+    new Ship(3),
+    new Ship(2),
+  ];
+
+  game.players[0].board.placeRandomShips(ships1);
+
+  createPlayerBoards();
+});
 
 function createPlayerBoards() {
   gameDiv.textContent = "";
@@ -159,6 +179,9 @@ function cellClick(cell) {
     // console.log("y, x:", cell.dataset.y, cell.dataset.x);
     // console.log("ship at:", game.players[1].board.board[5][5]);
 
+    // remove randomize button
+    randomizeShipsBtn.style.visibility = "hidden";
+
     // disallow clicking the same cell twice
     cell.setAttribute("style", "pointer-events: none");
 
@@ -216,7 +239,8 @@ function computerTurn() {
   }
 
   if (hit) {
-    setTimeout(computerTurn, 0);
+    // setTimeout(computerTurn, 0);
+    computerTurn();
   } else {
     game.nextTurn();
   }
