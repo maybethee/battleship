@@ -94,8 +94,9 @@ button {
 }
 
 .game {
-  display: flex;
-  flex-flow: column wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 4rem;
 }
 
 .game-wrapper {
@@ -125,10 +126,15 @@ button {
 }
 
 table {
-  width: 350px;
-  height: 350px;
+  width: 400px;
+  height: 400px;
 }
 
 p {
   margin-bottom: 3rem;
+}
+
+.remaining-ships {
+  width: 350px;
+  height: 350px;
 }

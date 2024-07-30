@@ -119,11 +119,15 @@ function createPlayerBoards() {
       }
       table.appendChild(row);
     }
-
+    // append boards
+    gameDiv.appendChild(table);
+  });
+  // append board names
+  game.players.forEach((player) => {
     let boardName = document.createElement("p");
     boardName.textContent = `${player.type}'s grid`;
 
-    gameDiv.append(table, boardName);
+    gameDiv.appendChild(boardName);
   });
 }
 
@@ -215,6 +219,9 @@ function intializePossibleCoordinates() {
   return availableCoordinates;
 }
 
+let lastHit = null;
+let direction = null;
+
 function computerTurn() {
   if (availableCoordinates.length === 0) {
     updateDOM();
@@ -222,8 +229,30 @@ function computerTurn() {
     return;
   }
 
-  let index = Math.floor(Math.random() * availableCoordinates.length);
-  let [x, y] = availableCoordinates[index];
+  let index;
+  let x, y;
+
+  if (lastHit && direction) {
+    // continue in the same direction if last guess was a hit
+    [x, y] =
+      direction === "x"
+        ? [lastHit[0], lastHit[1] + 1]
+        : [lastHit[0] + 1, lastHit[1]];
+    index = availableCoordinates.findIndex(
+      (coord) => coord[0] === x && coord[1] === y
+    );
+    if (index === -1 || x >= game.boardSize || y >= game.boardSize) {
+      // if next coordinate in the same direction is not available or out of bounds, choose a random coordinate
+      index = Math.floor(Math.random() * availableCoordinates.length);
+      [x, y] = availableCoordinates[index];
+      lastHit = null;
+      direction = null;
+    }
+  } else {
+    // choose a random coordinate if the last guess was a miss or there was no last guess
+    index = Math.floor(Math.random() * availableCoordinates.length);
+    [x, y] = availableCoordinates[index];
+  }
 
   // remove the chosen coordinate from availableCoordinates
   availableCoordinates.splice(index, 1);
@@ -239,9 +268,14 @@ function computerTurn() {
   }
 
   if (hit) {
-    // setTimeout(computerTurn, 0);
-    computerTurn();
+    // set last hit coordinate and direction for subsequent guess
+    lastHit = [x, y];
+    direction = direction || (Math.random() < 0.5 ? "x" : "y");
+    setTimeout(computerTurn, 500);
   } else {
+    // reset values on miss
+    lastHit = null;
+    direction = null;
     game.nextTurn();
   }
 }
