@@ -3,6 +3,7 @@ import "./style.css";
 
 const gameStartBtn = document.querySelector(".game-start-btn");
 const randomizeShipsBtn = document.querySelector("#randomize-ships");
+const rules = document.querySelector(".col-3");
 const gameDiv = document.querySelector(".game");
 const game = new GameController();
 let availableCoordinates = [];
@@ -51,7 +52,8 @@ function setupDOM() {
   // create boards
   createPlayerBoards();
 
-  randomizeShipsBtn.style.visibility = "visible";
+  randomizeShipsBtn.style.display = "inline";
+  rules.style.display = "inline";
 }
 
 randomizeShipsBtn.addEventListener("click", () => {
@@ -72,8 +74,6 @@ randomizeShipsBtn.addEventListener("click", () => {
 });
 
 function createPlayerBoards() {
-  gameDiv.textContent = "";
-
   game.players.forEach((player) => {
     // create html gameboard
     let table = document.createElement("table");
@@ -178,20 +178,36 @@ function updateDOM() {
   });
 }
 
+let isComputerTurn = false;
+
 function cellClick(cell) {
+  // prevents players from clicking when computer's turn
+  if (isComputerTurn) {
+    return;
+  }
+
   if (game.currentIsHuman) {
     // console.log("y, x:", cell.dataset.y, cell.dataset.x);
     // console.log("ship at:", game.players[1].board.board[5][5]);
 
     // remove randomize button
-    randomizeShipsBtn.style.visibility = "hidden";
+    randomizeShipsBtn.remove();
 
     // disallow clicking the same cell twice
     cell.setAttribute("style", "pointer-events: none");
+    cell.classList.add("clicked");
 
     let hit = game
       .getOpposingPlayer()
       .board.receiveAttack(cell.dataset.y, cell.dataset.x);
+
+    // re-render clicked cell to show hit/miss immediately
+    cell.classList.remove("computer-cell");
+    requestAnimationFrame(() => {
+      cell.classList.add("computer-cell");
+      updateDOM();
+    });
+
     if (hit) {
       updateDOM();
     } else {
@@ -209,6 +225,24 @@ function cellClick(cell) {
   }
 }
 
+function disableClicks() {
+  const cells = document.querySelectorAll(".computer-cell, .human-cell");
+  cells.forEach((cell) => {
+    if (!cell.classList.contains("clicked")) {
+      cell.style.pointerEvents = "none";
+    }
+  });
+}
+
+function enableClicks() {
+  const cells = document.querySelectorAll(".computer-cell, .human-cell");
+  cells.forEach((cell) => {
+    if (!cell.classList.contains("clicked")) {
+      cell.style.pointerEvents = "auto";
+    }
+  });
+}
+
 function intializePossibleCoordinates() {
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
@@ -223,9 +257,15 @@ let lastHit = null;
 let direction = null;
 
 function computerTurn() {
+  isComputerTurn = true;
+  disableClicks();
+
   if (availableCoordinates.length === 0) {
     updateDOM();
     game.nextTurn();
+    enableClicks();
+    isComputerTurn = false;
+
     return;
   }
 
@@ -276,11 +316,14 @@ function computerTurn() {
     // reset values on miss
     lastHit = null;
     direction = null;
+    enableClicks();
+    isComputerTurn = false;
     game.nextTurn();
   }
 }
 
 function gameOver() {
+  disableClicks();
   const gameWrapper = document.querySelector(".game-wrapper");
   const gameOverMessage = document.createElement("div");
 

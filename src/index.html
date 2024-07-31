@@ -3,17 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
     <title>BattleShip</title>
   </head>
   <body>
     <div class="page-wrapper">
-      <button class="game-start-btn">PLAY</button>
+      <h1>BATTLEHSHIP</h1>
+      <button class="game-start-btn">play</button>
       <div class="game-wrapper">
         <div class="col-1">
-          <button id="randomize-ships">randomize</button>
+          <div class="game"></div>
         </div>
         <div class="col-2">
-          <div class="game"></div>
+          <button id="randomize-ships">randomize</button>
+        </div>
+        <div class="col-3">
+          <div class="rules">
+            <p>rules:</p>
+            <p>
+              <span class="rules-hit"></span> : hit
+              <span class="rules-miss"></span> : miss
+            </p>
+            <p>turn ends when your attack misses</p>
+          </div>
         </div>
       </div>
     </div>

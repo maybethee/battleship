@@ -57,40 +57,74 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 232, 0.762);
+  color: beige;
 }
 
 button {
+  background-color: beige;
+  color: rgb(2, 2, 206);
   margin: 1rem;
   padding: 0.5rem;
-  border-radius: 25px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background-color: rgb(216, 216, 195);
+}
+
+.page-wrapper {
+  display: flex;
+  flex-flow: column;
+  gap: 3rem;
+  align-items: center;
+}
+
+h1 {
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 5rem;
+  margin-top: 1rem;
+}
+
+.game-start-btn {
+  place-self: center;
 }
 
 #randomize-ships {
-  visibility: hidden;
+  display: none;
 }
 
 .hit {
-  background-color: red;
+  background-color: rgb(247, 23, 53);
 }
 
 .miss {
-  background-color: gold;
+  background-color: rgb(161, 161, 255);
 }
 
 .human-cell,
 .computer-cell {
-  border: 1px solid black;
+  border: 1px solid beige;
+  /* background-color: rgba(0, 0, 255, 0.372); */
 }
 
 .computer-cell:hover {
-  background-color: rgba(255, 192, 203, 0.566);
-  border: 2px solid rgb(116, 0, 19);
+  /* background-color: rgba(2, 133, 255, 0.33);
+  border: solid 2px blue; */
+
+  background-color: beige;
+  /* border: solid 2px rgb(127, 127, 246); */
 }
 
 .ship {
-  background-color: rgba(2, 133, 255, 0.33);
-  border: solid 2px blue;
+  background-color: rgb(184, 180, 191);
+  border: solid 2px rgb(184, 180, 191);
 }
 
 .game {
@@ -100,15 +134,8 @@ button {
 }
 
 .game-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-}
-
-.end-screen {
-  background-color: rgba(248, 72, 234, 0.325);
+  display: grid;
+  gap: 2rem;
 }
 
 .game-over-message {
@@ -121,7 +148,7 @@ button {
   border: dashed beige 3px;
   border-radius: 25px;
   top: 40%;
-  left: 20%;
+  left: 50%;
   transform: translate(-50%, 50%);
 }
 
@@ -131,10 +158,63 @@ table {
 }
 
 p {
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
+  /* margin-bottom: 1rem; */
+  font-size: 1.2rem;
+  font-weight: 400;
 }
 
-.remaining-ships {
-  width: 350px;
-  height: 350px;
+.col-3 {
+  display: none;
+  background-color: rgba(25, 25, 162, 0.762);
+  place-self: end;
+  padding: 1rem;
+}
+
+.col-3 .rules {
+}
+
+.rules {
+  /* width: auto; */
+  /* text-align: center; */
+  /* white-space: pre; */
+}
+
+.rules-hit,
+.rules-miss {
+  display: inline-block;
+  width: 20px;
+  height: 1rem;
+}
+
+.rules-hit {
+  background-color: rgb(247, 23, 53);
+}
+
+.rules-miss {
+  margin-left: 40px;
+  background-color: rgb(161, 161, 255);
+}
+
+.rules p {
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 120%;
+
+  margin-bottom: 0.5rem;
+}
+
+.rules p:first-child {
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding-bottom: 0.6rem;
+  text-align: center;
+}
+
+p,
+button,
+.game-over-message {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
