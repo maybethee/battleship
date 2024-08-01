@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <title>BattleShip</title>
+  <script defer src="main.bundle.js"></script></head>
+  <body>
+    <div class="page-wrapper">
+      <h1>BATTLEHSHIP</h1>
+      <button class="game-start-btn">play</button>
+      <div class="game-wrapper">
+        <div class="row-1">
+          <div class="game"></div>
+        </div>
+        <div class="row-2">
+          <button id="collapse-rules-btn" class="unrolled-btn">^</button>
+          <div class="content-wrapper unrolled-div">
+            <button id="randomize-ships">randomize</button>
+            <div class="rules">
+              <p>rules:</p>
+              <p>
+                click squares on your opponent's grid to attack their hidden
+                ships
+              </p>
+              <p>
+                <span class="rules-ship"></span> : ship
+                <span class="rules-hit"></span> : hit
+                <span class="rules-miss"></span> : miss
+              </p>
+              <p>your turn ends when an attack misses</p>
+              <p>sink all of your opponent's ships to win!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
