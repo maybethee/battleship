@@ -147,8 +147,8 @@ h1 {
 }
 
 table {
-  width: calc(400px + 6vw);
-  height: calc(400px + 6vw);
+  width: 400px;
+  height: 400px;
 }
 
 p {
