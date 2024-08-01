@@ -16,20 +16,27 @@
       <h1>BATTLEHSHIP</h1>
       <button class="game-start-btn">play</button>
       <div class="game-wrapper">
-        <div class="col-1">
+        <div class="row-1">
           <div class="game"></div>
         </div>
-        <div class="col-2">
-          <button id="randomize-ships">randomize</button>
-        </div>
-        <div class="col-3">
-          <div class="rules">
-            <p>rules:</p>
-            <p>
-              <span class="rules-hit"></span> : hit
-              <span class="rules-miss"></span> : miss
-            </p>
-            <p>turn ends when your attack misses</p>
+        <div class="row-2">
+          <button id="collapse-rules-btn" class="unrolled-btn">^</button>
+          <div class="content-wrapper unrolled-div">
+            <button id="randomize-ships">randomize</button>
+            <div class="rules">
+              <p>rules:</p>
+              <p>
+                click squares on your opponent's grid to attack their hidden
+                ships
+              </p>
+              <p>
+                <span class="rules-ship"></span> : ship
+                <span class="rules-hit"></span> : hit
+                <span class="rules-miss"></span> : miss
+              </p>
+              <p>your turn ends when an attack misses</p>
+              <p>sink all of your opponent's ships to win!</p>
+            </div>
           </div>
         </div>
       </div>

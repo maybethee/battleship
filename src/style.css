@@ -65,7 +65,6 @@ body {
 button {
   background-color: beige;
   color: rgb(2, 2, 206);
-  margin: 1rem;
   padding: 0.5rem;
   border: none;
   border-radius: 5px;
@@ -111,20 +110,15 @@ h1 {
 .human-cell,
 .computer-cell {
   border: 1px solid beige;
-  /* background-color: rgba(0, 0, 255, 0.372); */
 }
 
 .computer-cell:hover {
-  /* background-color: rgba(2, 133, 255, 0.33);
-  border: solid 2px blue; */
-
   background-color: beige;
-  /* border: solid 2px rgb(127, 127, 246); */
 }
 
 .ship {
-  background-color: rgb(184, 180, 191);
-  border: solid 2px rgb(184, 180, 191);
+  background-color: rgb(126, 126, 126);
+  border: solid 2px rgb(126, 126, 126);
 }
 
 .game {
@@ -135,7 +129,7 @@ h1 {
 
 .game-wrapper {
   display: grid;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .game-over-message {
@@ -153,33 +147,28 @@ h1 {
 }
 
 table {
-  width: 400px;
-  height: 400px;
+  width: calc(400px + 6vw);
+  height: calc(400px + 6vw);
 }
 
 p {
-  /* margin-bottom: 3rem; */
-  /* margin-bottom: 1rem; */
   font-size: 1.2rem;
   font-weight: 400;
 }
 
-.col-3 {
-  display: none;
+.content-wrapper {
   background-color: rgba(25, 25, 162, 0.762);
-  place-self: end;
   padding: 1rem;
+  transform-origin: top;
 }
 
-.col-3 .rules {
+.row-2,
+#collapse-rules-btn,
+.content-wrapper {
+  display: none;
 }
 
-.rules {
-  /* width: auto; */
-  /* text-align: center; */
-  /* white-space: pre; */
-}
-
+.rules-ship,
 .rules-hit,
 .rules-miss {
   display: inline-block;
@@ -187,27 +176,34 @@ p {
   height: 1rem;
 }
 
+.rules-ship {
+  background-color: rgb(126, 126, 126);
+}
+
 .rules-hit {
   background-color: rgb(247, 23, 53);
 }
 
 .rules-miss {
-  margin-left: 40px;
   background-color: rgb(161, 161, 255);
+}
+
+.rules-hit,
+.rules-miss {
+  margin-left: 40px;
 }
 
 .rules p {
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 120%;
-
   margin-bottom: 0.5rem;
 }
 
 .rules p:first-child {
   font-size: 1.1rem;
   font-weight: 800;
-  padding-bottom: 0.6rem;
+  padding-bottom: 0.3rem;
   text-align: center;
 }
 
@@ -217,4 +213,80 @@ button,
   font-family: "Space Grotesk", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+}
+
+#collapse-rules-btn {
+  justify-self: end;
+  font-family: sans-serif;
+  padding: 0.4rem;
+  background-color: rgba(25, 25, 162, 0);
+  color: beige;
+  height: 35px;
+}
+
+#collapse-rules-btn:hover {
+  border-radius: 25px;
+  background-color: rgba(25, 25, 162, 0.762);
+}
+
+/* animations */
+
+.unrolled-btn {
+  animation: rotateBack 0.4s ease-out both;
+}
+
+.unrolled-div {
+  animation: unroll 0.2s ease-in-out both;
+}
+
+.collapsed-btn {
+  animation: rotate 0.4s ease-out both;
+}
+
+.collapsed-div {
+  animation: collapse 0.2s ease-in-out both;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes rotateBack {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes unroll {
+  from {
+    transform: scale(1, 0);
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    transform: scale(1, 1);
+    height: auto;
+    opacity: 1;
+  }
+}
+
+@keyframes collapse {
+  from {
+    transform: scale(1, 1);
+    height: auto;
+    opacity: 1;
+  }
+  to {
+    transform: scale(1, 0);
+    height: 0;
+    opacity: 0;
+  }
 }

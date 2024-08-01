@@ -3,7 +3,10 @@ import "./style.css";
 
 const gameStartBtn = document.querySelector(".game-start-btn");
 const randomizeShipsBtn = document.querySelector("#randomize-ships");
-const rules = document.querySelector(".col-3");
+const contentWrapper = document.querySelector(".content-wrapper");
+const rulesRow = document.querySelector(".row-2");
+const collapseBtn = document.querySelector("#collapse-rules-btn");
+
 const gameDiv = document.querySelector(".game");
 const game = new GameController();
 let availableCoordinates = [];
@@ -53,8 +56,16 @@ function setupDOM() {
   createPlayerBoards();
 
   randomizeShipsBtn.style.display = "inline";
-  rules.style.display = "inline";
+  rulesRow.style.display = "grid";
+  contentWrapper.style.display = "inline";
+
+  collapseBtn.style.display = "inline";
 }
+
+collapseBtn.addEventListener("click", () => {
+  collapseBtn.classList.toggle("collapsed-btn");
+  contentWrapper.classList.toggle("collapsed-div");
+});
 
 randomizeShipsBtn.addEventListener("click", () => {
   // only need to re-randomize human ships
@@ -74,6 +85,8 @@ randomizeShipsBtn.addEventListener("click", () => {
 });
 
 function createPlayerBoards() {
+  gameDiv.textContent = "";
+
   game.players.forEach((player) => {
     // create html gameboard
     let table = document.createElement("table");
