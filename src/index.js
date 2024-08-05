@@ -1,14 +1,3 @@
-// import "./style.css";
-
-function sum(a, b) {
-  return a + b;
-}
-
-export { sum };
-// if (process.env.NODE_ENV !== "test") {
-//   require("./dom");
-// }
-
 class Ship {
   constructor(length) {
     this.length = length;

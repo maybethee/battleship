@@ -243,16 +243,6 @@ describe("GameController class", () => {
     });
   });
 
-  // describe("computerTurn method", () => {
-  //   const spy = jest.spyOn(game.getOpposingPlayer().board, "receiveAttack");
-  //   test("should call receiveAttack", () => {
-  //     game.computerTurn();
-  //     expect(spy).toHaveBeenCalled();
-
-  //     spy.mockRestore();
-  //   });
-  // });
-
   describe("winCheck method", () => {
     test("should call allSunk", () => {
       const spy = jest.spyOn(game.getOpposingPlayer().board, "allSunk");
