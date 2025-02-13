@@ -136,6 +136,23 @@ describe("Gameboard methods", () => {
         expect(newGameboard.missedShots.at(-1)).toEqual([x, y + 1]);
       });
     });
+<<<<<<< HEAD
+=======
+
+    // to write:
+    // describe("when receiveAttack coordinates are duplicated", () => {
+    //   test("when attack would hit a ship, does not call hit method the second time", () => {
+    //     newGameboard.receiveAttack(y, x)
+    //     // expect it to break out of function?
+    //     // expect(newGameboard.receiveAttack(y, x)).toBe(true);
+    //   });
+    //   test("when attack would miss, does not add coordinates to missed shots array twice", () => {
+    //     newGameboard.receiveAttack(y, x - 1)
+    //     // expect it to break out of function?
+    //     // expect(newGameboard.receiveAttack(y, x)).toBe(true);
+    //   });
+    // });
+>>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
   });
 
   describe("allSunk method", () => {
@@ -229,6 +246,7 @@ describe("GameController class", () => {
     });
   });
 
+<<<<<<< HEAD
   // describe("computerTurn method", () => {
   //   const spy = jest.spyOn(game.getOpposingPlayer().board, "receiveAttack");
   //   test("should call receiveAttack", () => {
@@ -239,6 +257,8 @@ describe("GameController class", () => {
   //   });
   // });
 
+=======
+>>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
   describe("winCheck method", () => {
     test("should call allSunk", () => {
       const spy = jest.spyOn(game.getOpposingPlayer().board, "allSunk");

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Ship, Gameboard, GameController } from "./index";
+=======
+import { Ship, Gameboard, Player, GameController } from "./index";
+>>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
 import "./style.css";
 
 const gameStartBtn = document.querySelector(".game-start-btn");
@@ -8,10 +12,16 @@ const rulesRow = document.querySelector(".row-2");
 const collapseBtn = document.querySelector("#collapse-rules-btn");
 
 const gameDiv = document.querySelector(".game");
+<<<<<<< HEAD
 let game = new GameController();
 let availableCoordinates = [];
 
 // need to make sure the button can only get clicked once
+=======
+const game = new GameController();
+let availableCoordinates = [];
+
+>>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
 gameStartBtn.addEventListener("click", () => {
   // console.log(game);
 
@@ -138,7 +148,11 @@ function createPlayerBoards() {
   // append board names
   game.players.forEach((player) => {
     let boardName = document.createElement("p");
+<<<<<<< HEAD
     boardName.textContent = `${player.type}'s ships`;
+=======
+    boardName.textContent = `${player.type}'s grid`;
+>>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
 
     gameDiv.appendChild(boardName);
   });
@@ -339,12 +353,16 @@ function gameOver() {
   disableClicks();
   const gameWrapper = document.querySelector(".game-wrapper");
   const gameOverMessage = document.createElement("div");
+<<<<<<< HEAD
   const playAgainBtn = document.createElement("button");
+=======
+>>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
 
   gameDiv.setAttribute("style", "pointer-events: none");
 
   gameWrapper.classList.add("end-screen");
   gameOverMessage.classList.add("game-over-message");
+<<<<<<< HEAD
   gameOverMessage.textContent = `game over, ${
     game.getCurrentPlayer().type
   } wins!`;
@@ -365,4 +383,11 @@ function gameOver() {
 
     setupDOM();
   });
+=======
+  gameOverMessage.textContent = `Game over, ${
+    game.getCurrentPlayer().type
+  } wins!\r\n\r\nRefresh the page to play again.`;
+
+  gameWrapper.appendChild(gameOverMessage);
+>>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
 }
