@@ -35,7 +35,9 @@
     "testPathIgnorePatterns": [
       "<rootDir>/src/dom.js"
     ],
-    "modulePathIgnorePatterns": ["<rootDir>/src/dom.js"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/src/dom.js"
+    ],
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/src/styleMock.js"
     }

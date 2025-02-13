@@ -215,6 +215,14 @@ button,
   font-style: normal;
 }
 
+.game-over-message {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1rem;
+}
+
 #collapse-rules-btn {
   justify-self: end;
   font-family: sans-serif;

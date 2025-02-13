@@ -1,4 +1,4 @@
-import { Ship, Gameboard, Player, GameController } from "./index";
+import { Ship, Gameboard, GameController } from "./index";
 import "./style.css";
 
 const gameStartBtn = document.querySelector(".game-start-btn");
@@ -8,7 +8,7 @@ const rulesRow = document.querySelector(".row-2");
 const collapseBtn = document.querySelector("#collapse-rules-btn");
 
 const gameDiv = document.querySelector(".game");
-const game = new GameController();
+let game = new GameController();
 let availableCoordinates = [];
 
 // need to make sure the button can only get clicked once
@@ -138,7 +138,7 @@ function createPlayerBoards() {
   // append board names
   game.players.forEach((player) => {
     let boardName = document.createElement("p");
-    boardName.textContent = `${player.type}'s grid`;
+    boardName.textContent = `${player.type}'s ships`;
 
     gameDiv.appendChild(boardName);
   });
@@ -339,14 +339,30 @@ function gameOver() {
   disableClicks();
   const gameWrapper = document.querySelector(".game-wrapper");
   const gameOverMessage = document.createElement("div");
+  const playAgainBtn = document.createElement("button");
 
   gameDiv.setAttribute("style", "pointer-events: none");
 
   gameWrapper.classList.add("end-screen");
   gameOverMessage.classList.add("game-over-message");
-  gameOverMessage.textContent = `Game over, ${
+  gameOverMessage.textContent = `game over, ${
     game.getCurrentPlayer().type
-  } wins!\r\n\r\nRefresh the page to play again.`;
+  } wins!`;
 
   gameWrapper.appendChild(gameOverMessage);
+  gameOverMessage.appendChild(playAgainBtn);
+
+  playAgainBtn.textContent = "new game";
+  playAgainBtn.addEventListener("click", () => {
+    gameWrapper.classList.remove("end-screen");
+    gameOverMessage.remove();
+    playAgainBtn.remove();
+    gameDiv.setAttribute("style", "pointer-events: auto");
+
+    game = new GameController();
+    availableCoordinates = [];
+    intializePossibleCoordinates();
+
+    setupDOM();
+  });
 }

@@ -61,12 +61,12 @@ class Gameboard {
     for (let ship of shipArr) {
       let placed = false;
       while (!placed) {
-        // Generate a random orientation, x-coordinate, and y-coordinate
+        // generate a random orientation, x-coordinate, and y-coordinate
         let orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
         let x = Math.floor(Math.random() * this.board.length);
         let y = Math.floor(Math.random() * this.board.length);
 
-        // Check if the ship can be placed at the generated location
+        // check if the ship can be placed at the generated location
         if (this.canPlace(ship, x, y, orientation)) {
           this.placeShip(ship, x, y, orientation);
 
@@ -76,7 +76,6 @@ class Gameboard {
     }
   }
 
-  // at this point in my life, there's not a single chance i would work through implementing this logic myself. in 20 years, i hope i'll find this project again and think "how pedestrian, i couldn't handle such a simple problem on my own." as of now though, i can't envision myself becoming that person, so forgive me. if you're me and reading this in 20 years and had the aforementioned thought, take a moment to feel proud of how far you've come.
   canPlace(ship, x, y, orientation) {
     for (let i = 0; i < ship.length; i++) {
       let xCoordinate, yCoordinate;
@@ -88,7 +87,7 @@ class Gameboard {
         yCoordinate = y + i;
       }
 
-      // Check the cell itself
+      // check the cell itself
       if (
         xCoordinate >= this.board.length ||
         yCoordinate >= this.board.length ||
@@ -97,7 +96,7 @@ class Gameboard {
         return false;
       }
 
-      // Check the surrounding cells
+      // check the surrounding cells
       for (let dx = -1; dx <= 1; dx++) {
         for (let dy = -1; dy <= 1; dy++) {
           let nx = xCoordinate + dx;

@@ -136,20 +136,6 @@ describe("Gameboard methods", () => {
         expect(newGameboard.missedShots.at(-1)).toEqual([x, y + 1]);
       });
     });
-
-    // to write:
-    // describe("when receiveAttack coordinates are duplicated", () => {
-    //   test("when attack would hit a ship, does not call hit method the second time", () => {
-    //     newGameboard.receiveAttack(y, x)
-    //     // expect it to break out of function?
-    //     // expect(newGameboard.receiveAttack(y, x)).toBe(true);
-    //   });
-    //   test("when attack would miss, does not add coordinates to missed shots array twice", () => {
-    //     newGameboard.receiveAttack(y, x - 1)
-    //     // expect it to break out of function?
-    //     // expect(newGameboard.receiveAttack(y, x)).toBe(true);
-    //   });
-    // });
   });
 
   describe("allSunk method", () => {
