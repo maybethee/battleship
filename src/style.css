@@ -118,8 +118,8 @@ h1 {
 
 .ship {
   background-color: rgb(126, 126, 126);
-  border: solid 2px rgb(126, 126, 126);
   /* border: solid 2px rgb(126, 126, 126); */
+  border: solid 2px rgb(126, 126, 126);
 }
 
 .game {

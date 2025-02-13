@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 // if (process.env.NODE_ENV !== "test") {
 //   require("./dom");
 // }
 
-=======
->>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
 class Ship {
   constructor(length) {
     this.length = length;
@@ -64,20 +61,12 @@ class Gameboard {
     for (let ship of shipArr) {
       let placed = false;
       while (!placed) {
-<<<<<<< HEAD
         // generate a random orientation, x-coordinate, and y-coordinate
-=======
-        // Generate a random orientation, x-coordinate, and y-coordinate
->>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
         let orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
         let x = Math.floor(Math.random() * this.board.length);
         let y = Math.floor(Math.random() * this.board.length);
 
-<<<<<<< HEAD
         // check if the ship can be placed at the generated location
-=======
-        // Check if the ship can be placed at the generated location
->>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
         if (this.canPlace(ship, x, y, orientation)) {
           this.placeShip(ship, x, y, orientation);
 
@@ -87,10 +76,6 @@ class Gameboard {
     }
   }
 
-<<<<<<< HEAD
-=======
-  // at this point in my life, there's not a single chance i would work through implementing this logic myself. in 20 years, i hope i'll find this project again and think "how pedestrian, i couldn't handle such a simple problem on my own." as of now though, i can't envision myself becoming that person, so forgive me. if you're me and reading this in 20 years and had the aforementioned thought, take a moment to feel proud of how far you've come.
->>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
   canPlace(ship, x, y, orientation) {
     for (let i = 0; i < ship.length; i++) {
       let xCoordinate, yCoordinate;
@@ -102,11 +87,7 @@ class Gameboard {
         yCoordinate = y + i;
       }
 
-<<<<<<< HEAD
       // check the cell itself
-=======
-      // Check the cell itself
->>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
       if (
         xCoordinate >= this.board.length ||
         yCoordinate >= this.board.length ||
@@ -115,11 +96,7 @@ class Gameboard {
         return false;
       }
 
-<<<<<<< HEAD
       // check the surrounding cells
-=======
-      // Check the surrounding cells
->>>>>>> b0d464f0f8ccad0182a95ae0de07671fc58d25aa
       for (let dx = -1; dx <= 1; dx++) {
         for (let dy = -1; dy <= 1; dy++) {
           let nx = xCoordinate + dx;
